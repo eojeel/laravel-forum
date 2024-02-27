@@ -46,8 +46,8 @@ it('requires a valid body', function () {
 
 it('requires authentication', function () {
 
-        post(route('posts.comments.store', Post::factory()->create()), [
-            'body' => 'This is a comment',
-        ])->assertRedirect(route('login'));
+    post(route('posts.comments.store', Post::factory()->create()), [
+        'body' => 'This is a comment',
+    ])->assertRedirect(route('login'));
 
 });
