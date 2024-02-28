@@ -35,3 +35,22 @@ it('prevents deleted a comment thats not yours', function () {
         ->delete(route('comment.destroy', Comment::factory()->create()))
         ->assertForbidden();
 });
+
+it('cant delete a comment if its older than 1 hour', function () {
+
+    $comment = Comment::factory()->create([
+        'created_at' => now()->subHours(2),
+    ]);
+
+    actingAs($comment->user)
+        ->delete(route('comment.destroy', $comment))
+        ->assertForbidden();
+});
+
+it('redirects to the post show page with page query param', function () {
+
+    $comment = Comment::factory()->create();
+
+    actingAs($comment->user)->delete(route('comment.destroy', ['comment' => $comment, 'page' => 2]))
+        ->assertRedirect(route('post.show', ['post' => $comment->post_id, 'page' => 2]));
+});
