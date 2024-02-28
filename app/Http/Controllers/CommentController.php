@@ -4,25 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $this->authorizeResource(Comment::class, 'comment');
     }
 
     /**
@@ -43,36 +33,28 @@ class CommentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Comment $comment)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
+     *
+     * @throws AuthorizationException
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, Comment $comment): RedirectResponse
     {
-        //
+        $attributes = $request->validate([
+            'body' => 'required|string|max:2500',
+        ]);
+
+        $comment->update($attributes);
+
+        return to_route('post.show', ['post' => $comment->post_id, 'page' => $request->query('page')]);
     }
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @throws AuthorizationException
      */
-    public function destroy(Request $request, Comment $comment)
+    public function destroy(Request $request, Comment $comment): RedirectResponse
     {
-        $this->authorize('delete', $comment);
-
         $comment->delete();
 
         return to_route('post.show', ['post' => $comment->post_id, 'page' => $request->query('page')]);

@@ -27,9 +27,7 @@ it('redirects to the post show page', function () {
         ->assertRedirect(route('post.show', $comment->post_id));
 });
 
-it('prevents deleted a comment thats not yours', function () {
-
-    $comment = Comment::factory()->create();
+it('prevents deleted a comment that\'s not yours', function () {
 
     actingAs(User::factory()->create())
         ->delete(route('comment.destroy', Comment::factory()->create()))

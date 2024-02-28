@@ -14,8 +14,10 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
-    Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+    Route::resource('posts.comment', CommentController::class)->shallow();
+    //Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
+    //Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+    //Route::put('comments/{comment}', [CommentController::class, 'update'])->name('comment.update');
 
 });
 
