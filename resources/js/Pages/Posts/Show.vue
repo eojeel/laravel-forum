@@ -1,4 +1,5 @@
 <script setup>
+import {ref, computed} from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Container from '@/Components/Container.vue';
 import Pagination from "@/Components/Pagination.vue";
@@ -9,26 +10,54 @@ import {router, useForm} from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextArea from "@/Components/TextArea.vue";
 import InputError from "@/Components/InputError.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const props = defineProps(['post', 'comments']);
 const formattedDate = (date) => relativeDate(date);
+const commentTextArea = ref(null);
+const commentBeingEdited = ref(null);
 
 const commentForm = useForm({
     body: ''
 });
 
 const AddComment = () => {
-    commentForm.post(route('posts.comments.store', props.post.id), {
+    commentForm.post(route('posts.comment.store', props.post.id), {
         preserveScroll: true,
         onSuccess: () => commentForm.reset(),
     });
 }
 
+const commentEditing = computed(() => props.comments.data.find(comment => comment.id === commentBeingEdited.value))
+const editComment = (commentId) => {
+    commentBeingEdited.value = commentId;
+    commentForm.body = commentEditing.value?.body;
+    commentTextArea.value?.focus();
+}
+
+const cancelEditComment = () => {
+    commentBeingEdited.value = null;
+    commentForm.reset();
+}
+
 const deleteComment = (commentId) => {
-    router.delete(route('comment.destroy', { comment: commentId, page: props.comments.meta.current_page}), {
+    router.delete(route('comment.destroy', {comment: commentId, page: props.comments.meta.current_page}), {
         preserveScroll: true,
     });
 }
+
+const UpdateComment = () => {
+    commentForm.put(route('comment.update', {
+        comment: commentEditing.value.id,
+        page: props.comments.meta.current_page
+    }), {
+        preserveScroll: true,
+        onSuccess: () => {
+            cancelEditComment();
+        }
+    });
+}
+
 
 </script>
 
@@ -36,28 +65,32 @@ const deleteComment = (commentId) => {
     <AppLayout :title="post.title">
         <container>
             <h1 class="text-2xl font-bold">{{ post.title }}</h1>
-            <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} ago by {{ post.user.name }}</span>
+            <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} ago by {{
+                    post.user.name
+                }}</span>
             <article class="mt-4 ">
                 <pre class="whitespace-pre-wrap font-sans">{{ post.body }}</pre>
             </article>
 
             <div class="mt-10">
 
-                <form v-if="$page.props.auth.user" @submit.prevent="AddComment" class="mt-4">
+                <form v-if="$page.props.auth.user"
+                      @submit.prevent="() => commentBeingEdited ? UpdateComment() : AddComment()" class="mt-4">
                     <div>
                         <InputLabel for="body" class="sr-only">Comment</InputLabel>
-                        <TextArea id="body" v-model="commentForm.body" placeholder="Comment"/>
+                        <TextArea ref="commentTextArea" id="body" v-model="commentForm.body" placeholder="Comment"/>
                         <input-error :message="commentForm.errors.body" class="mt-2"></input-error>
                     </div>
-
-                    <PrimaryButton type="submit" class="mt-4" :disabled="commentForm.processing">Add Comment</PrimaryButton>
+                    <PrimaryButton type="submit" class="mt-4" :disabled="commentForm.processing"
+                                   v-text="commentBeingEdited ? 'Update Comment' : 'Add Comment'"></PrimaryButton>
+                    <SecondaryButton @click="cancelEditComment" v-if="commentBeingEdited" class="ml-2">Cancel
+                    </SecondaryButton>
                 </form>
-
 
                 <h2 class="text-xl font-semibold mt-4">Comments</h2>
                 <ul>
                     <li v-for="comment in comments.data" :key="comment.id" class="px-2 py-4 break-all">
-                        <Comment @delete="deleteComment" :comment="comment" />
+                        <Comment @delete="deleteComment" @edit="editComment" :comment="comment"/>
                     </li>
                 </ul>
 

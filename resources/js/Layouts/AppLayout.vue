@@ -29,14 +29,14 @@ const logout = () => {
 const menu = [
     {
         name: 'Dashboard',
-        href: route('dashboard'),
-        route: 'dasboard',
+        href: 'dashboard',
+        route: route('dashboard'),
         when:(route) => usePage().props.auth.user,
     },
     {
         name: 'Posts',
-        href: route('post.index'),
-        route: 'post.index',
+        href: 'posts',
+        route: route('post.index'),
     }
 ];
 </script>

@@ -1,12 +1,10 @@
 
 <script setup>
 import {relativeDate} from "@/Utilities/date.js";
-import {router, usePage} from "@inertiajs/vue3";
-import {computed} from 'vue';
 
 const props = defineProps(['comment']);
 
-const emit = defineEmits(['delete']);
+const emit = defineEmits(['delete','edit']);
 </script>
 
 <template>
@@ -17,9 +15,12 @@ const emit = defineEmits(['delete']);
         <div class="">
             <p class="mt-1">{{ comment.body }}</p>
             <span class="first-letter:uppercase block pt-1 text-xs text-gray-600">By {{ comment.user.name }} {{ relativeDate(comment.created_at) }} ago</span>
-            <div class="mt-1 text-left empty:hidden">
+            <div class="mt-2 empty:hidden flex justify-start space-x-3">
                 <form v-if="comment.can?.delete" @submit.prevent="$emit('delete', comment.id)">
                     <button class="text-xs text-red-500">Delete</button>
+                </form>
+                <form v-if="comment.can?.edit" @submit.prevent="$emit('edit', comment.id)">
+                    <button class="text-xs text-orange-500">Edit</button>
                 </form>
             </div>
         </div>
