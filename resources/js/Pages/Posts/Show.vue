@@ -11,11 +11,14 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextArea from "@/Components/TextArea.vue";
 import InputError from "@/Components/InputError.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import {useConfirm} from "@/Utilities/Composables/useConfirm.js";
 
 const props = defineProps(['post', 'comments']);
 const formattedDate = (date) => relativeDate(date);
 const commentTextArea = ref(null);
 const commentBeingEdited = ref(null);
+
+const { confirmation } = useConfirm();
 
 const commentForm = useForm({
     body: ''
@@ -40,13 +43,25 @@ const cancelEditComment = () => {
     commentForm.reset();
 }
 
-const deleteComment = (commentId) => {
+const deleteComment = async (commentId) => {
+    if(! await confirmation('Are you sure you want to delete the comment!'))
+    {
+        return;
+    }
+
     router.delete(route('comment.destroy', {comment: commentId, page: props.comments.meta.current_page}), {
         preserveScroll: true,
     });
 }
 
-const UpdateComment = () => {
+const UpdateComment = async () => {
+
+    if(! await confirmation('Are you sure you want to update the comment!'))
+    {
+        commentTextArea.value?.focus();
+        return;
+    }
+
     commentForm.put(route('comment.update', {
         comment: commentEditing.value.id,
         page: props.comments.meta.current_page
