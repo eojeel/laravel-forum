@@ -25,7 +25,7 @@ const commentForm = useForm({
 });
 
 const AddComment = () => {
-    commentForm.post(route('posts.comment.store', props.post.id), {
+    commentForm.post(route('posts.comments.store', props.post.id), {
         preserveScroll: true,
         onSuccess: () => commentForm.reset(),
     });
@@ -62,7 +62,7 @@ const UpdateComment = async () => {
         return;
     }
 
-    commentForm.put(route('comment.update', {
+    commentForm.put(route('comments.update', {
         comment: commentEditing.value.id,
         page: props.comments.meta.current_page
     }), {
