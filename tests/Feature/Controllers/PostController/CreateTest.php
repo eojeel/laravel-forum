@@ -16,13 +16,20 @@ it('it requires authentication', function () {
     post(route('posts.store'))->assertRedirect(route('login'));
 });
 
+it('returns the correct component', function() {
+
+    actingAs(User::factory()->create())
+        ->get(route('posts.create'))
+        ->assertComponent('Posts/Create');
+});
+
 it('can store a post', function () {
 
     $user = User::factory()->create();
 
     actingAs($user)->post(route('posts.store'), $this->validData);
 
-    $this->assertDatabaseHas(Post::class, [...$attributes, 'user_id' => $user->id]);
+    $this->assertDatabaseHas(Post::class, [...$this->validData, 'user_id' => $user->id]);
 });
 
 it('redirects to the post show page', function () {

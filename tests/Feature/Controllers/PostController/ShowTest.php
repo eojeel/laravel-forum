@@ -10,7 +10,7 @@ use function Pest\Laravel\{get};
 it('can show a post', function () {
     $post = Post::factory()->create();
 
-    get(route('post.show', $post))
+    get(route('posts.show', $post))
         ->assertComponent('Posts/Show');
 });
 
@@ -19,7 +19,7 @@ it('passes a post to the view', function () {
 
     $post->load('user');
 
-    get(route('post.show', $post))
+    get(route('posts.show', $post))
         ->assertHasResource('post', PostResource::make($post));
 });
 
@@ -31,6 +31,6 @@ it('passes comments to the vue', function () {
 
     $comments->load('user');
 
-    get(route('post.show', $post))
+    get(route('posts.show', $post))
         ->assertHasPaginatedResource('comments', CommentResource::collection($comments->reverse()));
 });

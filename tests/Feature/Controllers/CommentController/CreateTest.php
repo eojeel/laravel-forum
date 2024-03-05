@@ -13,7 +13,7 @@ it('Can store a coment', function () {
 
     $comment = 'This is a comment';
 
-    actingAs($user)->post(route('posts.comment.store', $post->id), [
+    actingAs($user)->post(route('posts.comments.store', $post->id), [
         'body' => $comment,
     ]);
 
@@ -29,16 +29,16 @@ it('redirects to the post show page', function () {
 
     $post = Post::factory()->create();
 
-    actingAs(User::factory()->create())->post(route('posts.comment.store', $post), [
+    actingAs(User::factory()->create())->post(route('posts.comments.store', $post), [
         'body' => 'This is a comment',
-    ])->assertRedirect(route('post.show', $post));
+    ])->assertRedirect(route('posts.show', $post));
 });
 
 it('requires a valid body', function () {
 
     $post = Post::factory()->create();
 
-    actingAs(User::factory()->create())->post(route('posts.comment.store', $post), [
+    actingAs(User::factory()->create())->post(route('posts.comments.store', $post), [
         'body' => null,
     ])->assertInvalid('body');
 })
@@ -46,7 +46,7 @@ it('requires a valid body', function () {
 
 it('requires authentication', function () {
 
-    post(route('posts.comment.store', Post::factory()->create()), [
+    post(route('posts.comments.store', Post::factory()->create()), [
         'body' => 'This is a comment',
     ])->assertRedirect(route('login'));
 

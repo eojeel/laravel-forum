@@ -83,8 +83,8 @@ const UpdateComment = async () => {
             <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} ago by {{
                     post.user.name
                 }}</span>
-            <article class="mt-4 ">
-                <pre class="whitespace-pre-wrap font-sans">{{ post.body }}</pre>
+            <article class="mt-4">
+                <pre class="whitespace-pre-wrap break-words font-sans">{{ post.body }}</pre>
             </article>
 
             <div class="mt-10">

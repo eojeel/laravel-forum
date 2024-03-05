@@ -8,7 +8,7 @@ use function Pest\Laravel\put;
 
 it('requires authentication', function () {
 
-    put(route('comment.update', Comment::factory()->create()))
+    put(route('comments.update', Comment::factory()->create()))
         ->assertRedirect(route('login'));
 });
 
@@ -18,7 +18,7 @@ it('Can update a comment', function () {
     $newBody = 'new body';
 
     actingAs($comment->user)
-        ->put(route('comment.update', $comment), ['body' => $newBody]);
+        ->put(route('comments.update', $comment), ['body' => $newBody]);
 
     $this->assertDatabaseHas(Comment::class, [
         'id' => $comment->id,
@@ -32,8 +32,8 @@ it('redirects to the post show page', function () {
     $comment = Comment::factory()->create();
 
     actingAs($comment->user)
-        ->put(route('comment.update', $comment), ['body' => 'new Body'])
-        ->assertRedirect(route('post.show', $comment->post));
+        ->put(route('comments.update', $comment), ['body' => 'new Body'])
+        ->assertRedirect(route('posts.show', $comment->post));
 
 });
 
@@ -42,14 +42,14 @@ it('redirects to the correct page of comments', function () {
     $comment = Comment::factory()->create();
 
     actingAs($comment->user)
-        ->put(route('comment.update', ['comment' => $comment, 'page' => 2]), ['body' => 'new Body'])
-        ->assertRedirect(route('post.show', ['post' => $comment->post, 'page' => 2]));
+        ->put(route('comments.update', ['comment' => $comment, 'page' => 2]), ['body' => 'new Body'])
+        ->assertRedirect(route('posts.show', ['post' => $comment->post, 'page' => 2]));
 });
 
 it('Cannot update a comment rom another users', function () {
 
     actingAs(User::factory()->create())
-        ->put(route('comment.update', Comment::factory()->create()))
+        ->put(route('comments.update', Comment::factory()->create()))
         ->assertForbidden();
 });
 
@@ -58,7 +58,7 @@ it('Requires a valid body', function ($body) {
     $comment = Comment::factory()->create();
 
     actingAs($comment->user)
-        ->put(route('comment.update', ['comment' => $comment]), [
+        ->put(route('comments.update', ['comment' => $comment]), [
             'body' => $body,
         ])->assertInvalid('body');
 })

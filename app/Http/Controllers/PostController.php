@@ -7,15 +7,16 @@ use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Inertia\ResponseFactory;
-use Response;
+use Inertia\Response;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): ResponseFactory
+    public function __construct()
+    {
+        $this->authorizeResource(Post::class);
+    }
+
+    public function index(): Response
     {
         return Inertia('Posts/Index', [
             'posts' => PostResource::collection(Post::with('user')->latest()->latest('id')->paginate()),
@@ -27,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia('Posts/Create');
     }
 
     /**
@@ -52,7 +53,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post): ResponseFactory
+    public function show(Post $post): Response
     {
         $post->load('user');
 
