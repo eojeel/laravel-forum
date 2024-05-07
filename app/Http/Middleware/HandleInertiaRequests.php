@@ -36,8 +36,8 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'permissions' => [
-                'create_posts' => $request->user()?->can('create', Post::class)
-            ]
+                'create_posts' => $request->user()?->can('create', Post::class),
+            ],
         ]);
     }
 }

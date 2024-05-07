@@ -2,13 +2,14 @@
 
 use App\Models\Post;
 use App\Models\User;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
 
 beforeEach(function () {
     $this->validData = [
-        'title' => fake()->sentence(10),
-        'body' => fake()->sentence(110)
+        'title' => Str::title(fake()->sentence(10)),
+        'body' => fake()->sentence(110),
     ];
 });
 
@@ -16,20 +17,22 @@ it('it requires authentication', function () {
     post(route('posts.store'))->assertRedirect(route('login'));
 });
 
-it('returns the correct component', function() {
+it('returns the correct component', function () {
 
     actingAs(User::factory()->create())
         ->get(route('posts.create'))
         ->assertComponent('Posts/Create');
 });
 
-it('can store a post', function () {
-
+it('stores a post', function () {
     $user = User::factory()->create();
 
     actingAs($user)->post(route('posts.store'), $this->validData);
 
-    $this->assertDatabaseHas(Post::class, [...$this->validData, 'user_id' => $user->id]);
+    $this->assertDatabaseHas(Post::class, [
+        ...$this->validData,
+        'user_id' => $user->id,
+    ]);
 });
 
 it('redirects to the post show page', function () {
@@ -39,10 +42,10 @@ it('redirects to the post show page', function () {
 
     actingAs($user)
         ->post(route('posts.store'), $this->validData)
-        ->assertRedirect(route('posts.show', Post::latest('id')->first()));
+        ->assertRedirect(Post::latest('id')->first()->showRoute());
 });
 
-it('requires a valid data', function(array $badData, array|string $errors) {
+it('requires a valid data', function (array $badData, array|string $errors) {
 
     $user = User::factory()->create();
 

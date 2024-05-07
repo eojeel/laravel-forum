@@ -7,6 +7,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import TextArea from "@/Components/TextArea.vue";
+import MarkldownEditor from "@/Components/MarkldownEditor.vue";
 
 const form = useForm({
     title: '',
@@ -28,7 +29,8 @@ const createPost = () => form.post(route('posts.store'));
                 </div>
                 <div class="mt-3">
                     <InputLabel for="body" class="sr-only">Body</InputLabel>
-                    <TextArea id="body" v-model="form.body" rows="25"/>
+                    <MarkldownEditor id="body" v-model="form.body"/>
+                    <TextArea id="body" v-model="form.body" rows="25" class="mt-2"/>
                     <InputError :message="form.errors.body" class="mt-1" />
                 </div>
                 <div>

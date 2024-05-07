@@ -56,8 +56,7 @@ class PostController extends Controller
      */
     public function show(Request $request, Post $post): Response|RedirectResponse
     {
-        if(! Str::contains($post->showRoute(), $request->path()))
-        {
+        if (! Str::contains($post->showRoute(), $request->path())) {
             return redirect($post->showRoute($request->query()), 301);
         }
 
