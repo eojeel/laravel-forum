@@ -13,7 +13,12 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'user_id'];
+    protected static function booted()
+    {
+        static::saving(fn (self $post) => $post->fill(['html' => str($post->body)->markdown()]));
+    }
+
+    protected $fillable = ['title', 'body', 'html', 'user_id'];
 
     /**
      * Get the user that owns the Post
