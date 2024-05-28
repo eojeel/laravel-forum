@@ -14,6 +14,7 @@ use SplFileInfo;
 class PostFactory extends Factory
 {
     private static Collection $fixtures;
+
     /**
      * Define the model's default state.
      *
@@ -34,12 +35,11 @@ class PostFactory extends Factory
             ->map(fn (string $contents) => str($contents)->explode("\n", 2))
             ->map(fn (Collection $parts) => [
                 'title' => str($parts[0])->trim()->after('# '),
-                'body' => str($parts[1])->trim()
+                'body' => str($parts[1])->trim(),
             ]);
 
         return $this->sequence(...$posts);
     }
-
 
     private static function getFixtures(): Collection
     {

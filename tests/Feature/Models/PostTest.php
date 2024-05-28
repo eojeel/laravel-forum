@@ -10,14 +10,14 @@ it('uses title case for titles', function () {
 
 });
 
-it('Can generate a route to the show page', function() {
+it('Can generate a route to the show page', function () {
 
     $post = Post::factory()->create();
 
     expect($post->showRoute())->toBe(route('posts.show', [$post, Str::slug($post->title)]));
 });
 
-it('can generate additional params', function() {
+it('can generate additional params', function () {
 
     $post = Post::factory()->create();
 

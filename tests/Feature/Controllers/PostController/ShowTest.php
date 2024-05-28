@@ -35,7 +35,7 @@ it('passes comments to the vue', function () {
         ->assertHasPaginatedResource('comments', CommentResource::collection($comments->reverse()));
 });
 
-it('will direct if the slug is incorrect', function() {
+it('will direct if the slug is incorrect', function () {
 
     $post = Post::factory()->create(['title' => 'welcome']);
 

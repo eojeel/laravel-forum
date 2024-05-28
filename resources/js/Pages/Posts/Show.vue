@@ -12,6 +12,7 @@ import TextArea from "@/Components/TextArea.vue";
 import InputError from "@/Components/InputError.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {useConfirm} from "@/Utilities/Composables/useConfirm.js";
+import MarkldownEditor from "@/Components/MarkldownEditor.vue";
 
 const props = defineProps(['post', 'comments']);
 const formattedDate = (date) => relativeDate(date);
@@ -92,7 +93,7 @@ const UpdateComment = async () => {
                       @submit.prevent="() => commentBeingEdited ? UpdateComment() : AddComment()" class="mt-4">
                     <div>
                         <InputLabel for="body" class="sr-only">Comment</InputLabel>
-                        <TextArea ref="commentTextArea" id="body" v-model="commentForm.body" placeholder="Comment"/>
+                        <MarkldownEditor ref="commentTextArea" id="body" v-model="commentForm.body" placeholder="Comment" editorClass="min-h-[160px]"/>
                         <input-error :message="commentForm.errors.body" class="mt-2"></input-error>
                     </div>
                     <PrimaryButton type="submit" class="mt-4" :disabled="commentForm.processing"
