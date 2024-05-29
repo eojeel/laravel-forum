@@ -1,4 +1,4 @@
-<script setup>
+<script setup xmlns="http://www.w3.org/1999/html">
 import {useForm} from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import Container from "@/Components/Container.vue";
@@ -6,8 +6,8 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
-import TextArea from "@/Components/TextArea.vue";
 import MarkldownEditor from "@/Components/MarkldownEditor.vue";
+import {isInProduction} from "@/Utilities/enviroment.js";
 
 const form = useForm({
     title: '',
@@ -15,6 +15,17 @@ const form = useForm({
 });
 
 const createPost = () => form.post(route('posts.store'));
+
+const autofill = async () => {
+    if(!isInProduction)
+    {
+        return;
+    }
+    const response = await axios.get('/local/post-content');
+
+    form.title = response.data.title;
+    form.body = response.data.body;
+}
 </script>
 
 <template>
@@ -29,7 +40,18 @@ const createPost = () => form.post(route('posts.store'));
                 </div>
                 <div class="mt-3">
                     <InputLabel for="body" class="sr-only">Body</InputLabel>
-                    <MarkldownEditor id="body" v-model="form.body"/>
+                    <MarkldownEditor id="body" v-model="form.body" editorClass="min-h-[512px]">
+                        <template #toolbar="{ editor }">
+                            <li v-if="!isInProduction()">
+                                <button @click="autofill"
+                                        type="button"
+                                        class="px-3 py-2"
+                                        title="Autfill">
+                                        <i class="ri-article-line"></i>
+                                </button>
+                            </li>
+                        </template>
+                    </MarkldownEditor>
                     <InputError :message="form.errors.body" class="mt-1" />
                 </div>
                 <div>

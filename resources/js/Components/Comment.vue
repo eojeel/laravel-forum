@@ -10,7 +10,7 @@ const emit = defineEmits(['delete','edit']);
 <template>
     <div class="sm:flex py-3 border-b-2">
         <div class="mb-4 flex-shrink-0 sm:mb-0 sm:mr-4">
-            <img :src="comment.user.profile_photo_url" class="h-10 w-10 rounded-full" />
+            <img :src="comment.user.profile_photo_url" class="h-10 w-10 rounded-full"/>
         </div>
         <div class="flex-1">
             <div class="mt-1 prose prose-sm max-w-none" v-html="comment.html"></div>
