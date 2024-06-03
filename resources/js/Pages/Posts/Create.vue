@@ -8,6 +8,7 @@ import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import MarkldownEditor from "@/Components/MarkldownEditor.vue";
 import {isInProduction} from "@/Utilities/enviroment.js";
+import PageHeading from "@/Components/PageHeading.vue";
 
 const form = useForm({
     title: '',
@@ -31,7 +32,7 @@ const autofill = async () => {
 <template>
     <AppLayout title="Create a Post.">
         <container>
-            <h1 class="text-2xl font-bold">Create a Post</h1>
+            <PageHeading>Create a Post</PageHeading>
             <form @submit.prevent="createPost" class="mt-6">
                 <div>
                     <InputLabel for="title" class="sr-only">Title</InputLabel>
