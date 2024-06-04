@@ -5,19 +5,27 @@ import Pagination from '@/Components/Pagination.vue';
 import { Link } from '@inertiajs/vue3';
 import {relativeDate} from "@/Utilities/date.js";
 import PageHeading from "@/Components/PageHeading.vue";
+import Pill from "@/Components/Pill.vue";
 
 const formattedDate = (date) => relativeDate(date);
 
-defineProps(['posts', 'selectedTopic']);
+defineProps(['posts', 'selectedTopic', 'topics']);
 </script>
 
 <template>
     <AppLayout>
         <container>
-            <Link :href="route('posts.index')" class="text-indigo-500 hover:text-indigo-700 block mb-2">Back to all Posts</Link>
             <div>
-                <PageHeading v-text="selectedTopic ? selectedTopic.name : 'Al Posts'"></PageHeading>
+            <Link v-if="selectedTopic" :href="route('posts.index')" class="text-indigo-500 hover:text-indigo-700 block mb-2">Back to all Posts</Link>
+                <PageHeading v-text="selectedTopic ? selectedTopic.name : 'All Posts'"></PageHeading>
                 <p v-if="selectedTopic" class="mt-1 text-gray-600 text-sm">{{ selectedTopic.description }}</p>
+                <menu class="flex space-x-1 mt-4 overflow-x-auto pb-2 pt-1">
+                    <li v-for="topic in topics" :key="topic.id">
+                        <Pill :href="route('posts.index', {topic: topic.slug})" :filled="topic.id === selectedTopic?.id">
+                            {{ topic.name }}
+                        </Pill>
+                    </li>
+                </menu>
             </div>
             <ul class="divide-y mt-4">
                 <li v-for="post in posts.data" :key="post.id" class="flex justify-between items-baseline flex-col md:flex-row">
@@ -25,11 +33,9 @@ defineProps(['posts', 'selectedTopic']);
                         <span class="bold text-lg group-hover:text-emerald-500">{{ post.title }}</span>
                         <span class="block mt-2 text-sm text-black">by {{ post.user.name }} {{ formattedDate(post.created_at) }} ago</span>
                     </Link>
-                    <Link
-                        :href="route('posts.index', {topic: post.topic.slug})"
-                        class="mb-2 rounded-full py-0.5 px-2 border borer-pink-500 text-pink-500 hover:bg-indigo-500 hover:text-indigo-50">
+                    <Pill :href="route('posts.index', {topic: post.topic.slug})">
                         {{ post.topic.name }}
-                    </Link>
+                    </Pill>
                 </li>
             </ul>
         </container>

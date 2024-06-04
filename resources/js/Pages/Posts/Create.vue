@@ -10,8 +10,11 @@ import MarkldownEditor from "@/Components/MarkldownEditor.vue";
 import {isInProduction} from "@/Utilities/enviroment.js";
 import PageHeading from "@/Components/PageHeading.vue";
 
+const props = defineProps(['topics']);
+
 const form = useForm({
     title: '',
+    topic_id: props.topics[0].id,
     body: '',
 });
 
@@ -41,6 +44,15 @@ const autofill = async () => {
                 </div>
                 <div class="mt-3">
                     <InputLabel for="body" class="sr-only">Body</InputLabel>
+                    <div>
+                        <InputLabel for="topic_id">Select a Topic</InputLabel>
+                        <select v-model="form.topic_id" :id="form.topic_id" class="mt-1 mb-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                            <option v-for="topic in topics" :key="topic.id" :value="topic.id">
+                                {{ topic.name }}
+                            </option>
+                        </select>
+                        <InputError :message="form.errors.topic_id" class="mt-1" />
+                    </div>
                     <MarkldownEditor id="body" v-model="form.body" editorClass="min-h-[512px]">
                         <template #toolbar="{ editor }">
                             <li v-if="!isInProduction()">

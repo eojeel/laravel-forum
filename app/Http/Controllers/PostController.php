@@ -30,6 +30,7 @@ class PostController extends Controller
 
         return Inertia('Posts/Index', [
             'posts' => PostResource::collection($posts),
+            'topics' => fn () => TopicResource::collection(Topic::all()),
             'selectedTopic' => fn () => $topic ? TopicResource::make($topic) : null,
         ]);
     }
@@ -39,7 +40,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return Inertia('Posts/Create');
+        return inertia('Posts/Create', [
+            'topics' => fn () => TopicResource::collection(Topic::all()),
+        ]);
     }
 
     /**
@@ -49,6 +52,7 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'min:10', 'max:120'],
+            'topic_id' => ['required', 'exists:topics,id'],
             'body' => ['required', 'string', 'min:100', 'max:10000'],
         ]);
 
@@ -70,7 +74,7 @@ class PostController extends Controller
             return redirect($post->showRoute($request->query()), 301);
         }
 
-        $post->load('user');
+        $post->load('user', 'topic');
 
         // closures are used to avoid eager loading when the component is not rendered
         return Inertia('Posts/Show', [
