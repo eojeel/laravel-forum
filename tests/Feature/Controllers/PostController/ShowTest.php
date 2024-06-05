@@ -44,5 +44,5 @@ it('will direct if the slug is incorrect', function (string $incorrectSlug) {
 
 })->with([
     'foo-bar',
-    'hello'
+    'hello',
 ]);
