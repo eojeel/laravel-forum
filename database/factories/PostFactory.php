@@ -31,5 +31,4 @@ class PostFactory extends Factory
     {
         return $this->sequence(...PostFixtures::getFixtures());
     }
-
 }

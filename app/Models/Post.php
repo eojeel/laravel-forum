@@ -12,8 +12,8 @@ use Illuminate\Support\Str;
 
 class Post extends Model
 {
-    use HasFactory;
     use ConvertsMakrdownToHtml;
+    use HasFactory;
 
     protected $fillable = ['title', 'body', 'html', 'user_id'];
 

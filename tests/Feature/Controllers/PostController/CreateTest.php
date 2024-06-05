@@ -4,8 +4,8 @@ use App\Http\Resources\TopicResource;
 use App\Models\Post;
 use App\Models\Topic;
 use App\Models\User;
-
 use Illuminate\Support\Str;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
 
@@ -82,4 +82,3 @@ it('requires a valid data', function (array $badData, array|string $errors) {
     [['body' => str_repeat('a', 10_001)], 'body'],
     [['body' => str_repeat('a', 99)], 'body'],
 ]);
-

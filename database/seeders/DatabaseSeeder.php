@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'name' => 'joe',
                 'email' => 'test@example.com',
-                'password' => 'password',
+                'password' => bcrypt('password'),
             ]);
     }
 }

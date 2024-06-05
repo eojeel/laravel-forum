@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::table('posts', function(Blueprint $table) {
+        Schema::table('posts', function (Blueprint $table) {
             $table->foreignIdFor(Topic::class)
                 ->after('user_id')
                 ->constrained()
@@ -33,7 +33,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('posts', function(Blueprint $table) {
+        Schema::table('posts', function (Blueprint $table) {
             $table->dropConstrainedForeignIdFor(Topic::class);
         });
 

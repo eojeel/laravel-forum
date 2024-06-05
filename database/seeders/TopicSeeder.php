@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Topic;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TopicSeeder extends Seeder
@@ -22,7 +21,7 @@ class TopicSeeder extends Seeder
             [
                 'slug' => 'reviews',
                 'name' => 'Reviews',
-                'description' => 'What\'s the census on that latest flick? Read all about it here!'
+                'description' => 'What\'s the census on that latest flick? Read all about it here!',
             ],
             [
                 'slug' => 'questions',
@@ -37,8 +36,8 @@ class TopicSeeder extends Seeder
             [
                 'slug' => 'fan-fic',
                 'name' => 'Fan Fiction',
-                'description' => 'Got a great idea for a sequel? Tell us all about it and get the audience opinion.'
-            ]
+                'description' => 'Got a great idea for a sequel? Tell us all about it and get the audience opinion.',
+            ],
         ];
 
         Topic::upsert($data, ['slug']);

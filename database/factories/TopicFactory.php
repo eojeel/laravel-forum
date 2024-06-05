@@ -19,7 +19,7 @@ class TopicFactory extends Factory
         return [
             'slug' => fake()->unique()->slug,
             'name' => fake()->word,
-            'description' => fake()->sentence
+            'description' => fake()->sentence,
         ];
     }
 }
