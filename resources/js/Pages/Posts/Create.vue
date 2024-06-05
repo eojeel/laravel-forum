@@ -6,7 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
-import MarkldownEditor from "@/Components/MarkldownEditor.vue";
+import MarkldownEditor from "@/Components/MarkDownEditor.vue";
 import {isInProduction} from "@/Utilities/enviroment.js";
 import PageHeading from "@/Components/PageHeading.vue";
 

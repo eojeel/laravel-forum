@@ -12,7 +12,7 @@ import TextArea from "@/Components/TextArea.vue";
 import InputError from "@/Components/InputError.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {useConfirm} from "@/Utilities/Composables/useConfirm.js";
-import MarkldownEditor from "@/Components/MarkldownEditor.vue";
+import MarkDownEditor from "@/Components/MarkDownEditor.vue";
 import PageHeading from "@/Components/PageHeading.vue";
 import Pill from "@/Components/Pill.vue";
 
@@ -67,7 +67,7 @@ const UpdateComment = async () => {
 
     commentForm.put(route('comments.update', {
         comment: commentEditing.value.id,
-        page: props.comments.meta.current_page
+        page: props.comments.data.length > 1 ? props.comments.meta.current_page : Math.max(props.comments.meta.current_page -1, 1)
     }), {
         preserveScroll: true,
         onSuccess: () => {
@@ -96,7 +96,7 @@ const UpdateComment = async () => {
                       @submit.prevent="() => commentBeingEdited ? UpdateComment() : AddComment()" class="mt-4">
                     <div>
                         <InputLabel for="body" class="sr-only">Comment</InputLabel>
-                        <MarkldownEditor ref="commentTextArea" id="body" v-model="commentForm.body" placeholder="Comment" editorClass="min-h-[160px]"/>
+                        <MarkDownEditor ref="commentTextArea" id="body" v-model="commentForm.body" placeholder="Comment" editorClass="min-h-[160px]"/>
                         <input-error :message="commentForm.errors.body" class="mt-2"></input-error>
                     </div>
                     <PrimaryButton type="submit" class="mt-4" :disabled="commentForm.processing"
