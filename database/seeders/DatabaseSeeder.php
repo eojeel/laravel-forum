@@ -38,15 +38,9 @@ class DatabaseSeeder extends Seeder
                     fn (Post $post) => ['likeable_id' => $post])
             ))
             ->create([
-<<<<<<< HEAD
                 'name' => env('TEST_NAME'),
                 'email' => env('TEST_EMAIL'),
-                'password' => env('TEST_PASSWORD'),
-=======
-                'name' => 'joe',
-                'email' => 'test@example.com',
-                'password' => bcrypt('password'),
->>>>>>> eb6e8f284aa3679082381ac743a6e60703ad5108
+                'password' => bcrypt(env('TEST_PASSWORD')),
             ]);
     }
 }

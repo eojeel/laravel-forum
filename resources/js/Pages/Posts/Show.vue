@@ -84,16 +84,9 @@ const UpdateComment = async () => {
 
     <AppLayout :title="post.title">
         <container>
-<<<<<<< HEAD
             <PageHeading>{{ post.title }}</PageHeading>
-            <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} by {{
-=======
             <Pill :href="route('posts.index', {topic: post.topic.slug })">{{ post.topic.name }}</Pill>
-            <PageHeading class="mt-2">{{ post.title }}</PageHeading>
-            <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} ago by {{
->>>>>>> eb6e8f284aa3679082381ac743a6e60703ad5108
-                    post.user.name
-                }}</span>
+            <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} ago by {{post.user.name}}</span>
             <article class="mt-4 prose prose-sm max-w-none" v-html="post.html">
             </article>
 
