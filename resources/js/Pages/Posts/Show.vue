@@ -6,7 +6,7 @@ import Pagination from "@/Components/Pagination.vue";
 import {relativeDate} from "@/Utilities/date.js";
 import Comment from "@/Components/Comment.vue";
 import InputLabel from "@/Components/InputLabel.vue";
-import {router, useForm} from "@inertiajs/vue3";
+import {Head, router, useForm} from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextArea from "@/Components/TextArea.vue";
 import InputError from "@/Components/InputError.vue";
@@ -74,15 +74,17 @@ const UpdateComment = async () => {
         }
     });
 }
-
-
 </script>
 
 <template>
+    <Head>
+        <link rel="canonical" :href="post.routes.show" />
+    </Head>
+
     <AppLayout :title="post.title">
         <container>
             <PageHeading>{{ post.title }}</PageHeading>
-            <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} ago by {{
+            <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} by {{
                     post.user.name
                 }}</span>
             <article class="mt-4 prose prose-sm max-w-none" v-html="post.html">

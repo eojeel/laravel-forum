@@ -23,7 +23,7 @@ defineProps(['posts', 'selectedTopic']);
                 <li v-for="post in posts.data" :key="post.id" class="flex justify-between items-baseline flex-col md:flex-row">
                     <Link :href="post.routes.show"  class="block group px-2 py-4">
                         <span class="bold text-lg group-hover:text-emerald-500">{{ post.title }}</span>
-                        <span class="block mt-2 text-sm text-black">by {{ post.user.name }} {{ formattedDate(post.created_at) }} ago</span>
+                        <span class="block mt-2 text-sm text-black">by {{ post.user.name }} {{ formattedDate(post.created_at) }}</span>
                     </Link>
                     <Link
                         :href="route('posts.index', {topic: post.topic.slug})"

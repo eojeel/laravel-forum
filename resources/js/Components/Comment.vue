@@ -14,7 +14,7 @@ const emit = defineEmits(['delete','edit']);
         </div>
         <div class="flex-1">
             <div class="mt-1 prose prose-sm max-w-none" v-html="comment.html"></div>
-            <span class="first-letter:uppercase block pt-1 text-xs text-gray-600">By {{ comment.user.name }} {{ relativeDate(comment.created_at) }} ago</span>
+            <span class="first-letter:uppercase block pt-1 text-xs text-gray-600">By {{ comment.user.name }} {{ relativeDate(comment.created_at) }}</span>
             <div class="mt-2 empty:hidden flex justify-start space-x-3">
                 <form v-if="comment.can?.delete" @submit.prevent="$emit('delete', comment.id)">
                     <button class="text-xs text-red-500">Delete</button>
