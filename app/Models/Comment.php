@@ -6,11 +6,12 @@ use App\Models\Concerns\ConvertsMakrdownToHtml;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Comment extends Model
 {
-    use HasFactory;
     use ConvertsMakrdownToHtml;
+    use HasFactory;
 
     protected $fillable = ['body', 'html'];
 
@@ -28,5 +29,10 @@ class Comment extends Model
     public function Post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
+    }
+
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable');
     }
 }

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\PostResource;
 use App\Http\Resources\TopicResource;
+use App\Models\Post;
+use App\Models\Topic;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Response;
-use App\Models\Topic;
-use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -20,7 +20,7 @@ class PostController extends Controller
         $this->authorizeResource(Post::class);
     }
 
-    public function index(Topic $topic = null): Response
+    public function index(?Topic $topic = null): Response
     {
         $posts = Post::with(['user', 'topic'])
             ->when($topic, fn (Builder $query) => $query->whereBelongsTo($topic))

@@ -9,6 +9,7 @@ use SplFileInfo;
 class PostFixtures
 {
     private static Collection $fixtures;
+
     public static function getFixtures(): Collection
     {
         return self::$fixtures ??= collect(File::files(database_path('factories/fixtures/posts')))
