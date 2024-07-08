@@ -13,7 +13,7 @@ const props = defineProps({
     placeholder: null,
 })
 
-const emit = defineEmits(['update:modelValue']);
+const model = defineModel();
 
 const editor = useEditor({
     extensions: [
@@ -36,18 +36,21 @@ const editor = useEditor({
             class: `prose prose-sm max-w-none py-1.5 px-3 ${props.editorClass}`,
         },
     },
-    onUpdate: () => emit('update:modelValue', editor.value?.storage.markdown.getMarkdown()),
+    onUpdate: () =>
+        model.value = editor.value?.storage.markdown.getMarkdown(),
 });
 
 defineExpose({focus: () => editor.value.commands.focus()})
 
-watch(() => props.modelValue, (value) => {
-    if (value === editor.value?.storage.markdown.getMarkdown())
-    {
-        return;
-    }
-    editor.value?.commands.setContent(value);
-}, {immediate: true});
+onMounted(() => {
+    watch(() =>model, (value) => {
+        if (value === editor.value?.storage.markdown.getMarkdown())
+        {
+            return;
+        }
+        editor.value?.commands.setContent(value);
+    }, {immediate: true});
+});
 
 const propmtUserForHref = () => {
 
