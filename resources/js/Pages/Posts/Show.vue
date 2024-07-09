@@ -59,7 +59,7 @@ const deleteComment = async (commentId) => {
 
 const UpdateComment = async () => {
 
-    if(! await confirmation('Are you sure you want to update the comment!'))
+    if(! await confirmation('Are you sure you want to update the comment!'))cd
     {
         commentTextArea.value?.focus();
         return;
@@ -87,6 +87,11 @@ const UpdateComment = async () => {
             <PageHeading>{{ post.title }}</PageHeading>
             <Pill :href="route('posts.index', {topic: post.topic.slug })">{{ post.topic.name }}</Pill>
             <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} ago by {{post.user.name}}</span>
+            <div class="mt-4">
+                <span class="text-pink-500 font-bold">
+                    {{ post.likes_count }} Likes
+                </span>
+            </div>
             <article class="mt-4 prose prose-sm max-w-none" v-html="post.html">
             </article>
 

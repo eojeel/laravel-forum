@@ -1,7 +1,7 @@
 <script setup>
 import {EditorContent, useEditor} from "@tiptap/vue-3";
 import {StarterKit} from "@tiptap/starter-kit";
-import {watch} from "vue";
+import {onMounted, watch} from "vue";
 import {Markdown} from "tiptap-markdown";
 import MenuButton from "@/Components/MenuButton.vue";
 import {Link} from "@tiptap/extension-link";
