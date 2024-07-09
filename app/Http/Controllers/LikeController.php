@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\UpdateLikeRequest;
 use App\Models\Like;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class LikeController extends Controller
 {
@@ -27,9 +30,25 @@ class LikeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLikeRequest $request)
+    public function store(Request $request, string $type, int $id)
     {
-        //
+        $model = Relation::getMorphedModel($type);
+
+        if ($model === null) {
+            throw new ModelNotFoundException();
+        }
+
+        $likeable = $model::findOrFail($id);
+
+        Gate::authorize('create', [Like::class, $likeable]);
+
+        $likeable->likes()->create([
+            'user_id' => $request->user()->id,
+        ]);
+
+        $likeable->increment('likes_count');
+
+        return back();
     }
 
     /**
