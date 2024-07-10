@@ -78,8 +78,13 @@ class PostController extends Controller
 
         // closures are used to avoid eager loading when the component is not rendered
         return Inertia('Posts/Show', [
-            'post' => fn () => PostResource::make($post),
-            'comments' => fn () => CommentResource::collection($post->comments()->with('user')->latest()->latest('id')->paginate(10)),
+            'post' => fn () => PostResource::make($post)->withLikePermission(),
+            'comments' => function () use ($post) {
+                $commentResource = CommentResource::collection($post->comments()->with('user')->latest()->latest('id')->paginate(10));
+                $commentResource->collection->transform(fn ($resource) => $resource->withLikePermission());
+
+                return $commentResource;
+            },
         ]);
     }
 

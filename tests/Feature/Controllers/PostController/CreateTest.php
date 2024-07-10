@@ -39,6 +39,7 @@ it('passes the correct component', function () {
 it('stores a post', function () {
     $user = User::factory()->create();
 
+    $this->withoutExceptionHandling();
     $data = value($this->validData);
 
     actingAs($user)->post(route('posts.store'), $data);

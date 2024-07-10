@@ -24,6 +24,7 @@ class PostFactory extends Factory
             'topic_id' => Topic::factory(),
             'title' => fake()->sentence,
             'body' => fake()->realText(500),
+            'likes_count' => 0,
         ];
     }
 

@@ -16,7 +16,7 @@ class Post extends Model
     use ConvertsMakrdownToHtml;
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'html', 'user_id'];
+    protected $fillable = ['title', 'body', 'html', 'user_id', 'topic_id'];
 
     /**
      * Get the user that owns the Post

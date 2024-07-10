@@ -78,8 +78,22 @@ class LikeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Like $like)
+    public function destroy(Request $request, string $type, int $id)
     {
-        //
+        $model = Relation::getMorphedModel($type);
+
+        if ($model === null) {
+            throw new ModelNotFoundException();
+        }
+
+        $likeable = $model::findOrFail($id);
+
+        Gate::authorize('delete', [Like::class, $likeable]);
+
+        $likeable->likes()->whereBelongsTo($request->user())->delete();
+
+        $likeable->decrement('likes_count');
+
+        return back();
     }
 }
