@@ -20,7 +20,7 @@ it('passes a post to the view', function () {
     $post->load('user', 'topic');
 
     get($post->showRoute())
-        ->assertHasResource('post', PostResource::make($post));
+        ->assertHasResource('post', PostResource::make($post)->withLikePermission());
 });
 
 it('passes comments to the vue', function () {
@@ -31,8 +31,13 @@ it('passes comments to the vue', function () {
 
     $comments->load('user');
 
+    $expectedResource = CommentResource::collection($comments->reverse());
+
+    $expectedResource->collection->transform(fn (CommentResource $resource) => $resource->withLikePermission()
+    );
+
     get($post->showRoute())
-        ->assertHasPaginatedResource('comments', CommentResource::collection($comments->reverse()));
+        ->assertHasPaginatedResource('comments', $expectedResource);
 });
 
 it('will direct if the slug is incorrect', function (string $incorrectSlug) {

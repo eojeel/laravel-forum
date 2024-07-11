@@ -18,9 +18,9 @@ it('allows unliking a likeable', function (Model $likeable) {
     $like = Like::factory()->for($user)->for($likeable, 'likeable')->create();
 
     actingAs($user)
-        ->fromRoute('dashboard')
+        ->fromRoute('index')
         ->delete(route('likes.destroy', [$likeable->getMorphClass(), $likeable->id]))
-        ->assertRedirect(route('dashboard'));
+        ->assertRedirect(route('index'));
 
     $this->assertDatabaseEmpty(Like::class);
     expect($likeable->refresh()->likes_count)->toBe(0);
@@ -43,7 +43,7 @@ it('ot a;;pws unliking supported models', function () {
     $user = User::factory()->create();
 
     actingAs($user)
-        ->fromRoute('dashboard')
+        ->fromRoute('index')
         ->delete(route('likes.destroy', [$user->getMorphClass(), $user->id]))
         ->assertForbidden();
 });

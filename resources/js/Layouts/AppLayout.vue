@@ -29,15 +29,10 @@ const logout = () => {
 
 const menu = [
     {
-        name: 'Dashboard',
-        href: 'dashboard',
-        route: route('dashboard'),
+        name: 'Home',
+        href: 'index',
+        route: route('index'),
         when:(route) => usePage().props.auth.user,
-    },
-    {
-        name: 'Posts',
-        href: 'posts',
-        route: route('posts.index'),
     },
     {
         name: 'Create',
@@ -62,7 +57,7 @@ const menu = [
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('index')">
                                     <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
                             </div>
@@ -169,8 +164,8 @@ const menu = [
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                        <ResponsiveNavLink :href="route('index')" :active="route().current('index')">
+                            Home
                         </ResponsiveNavLink>
                     </div>
 

@@ -20,10 +20,15 @@ class PostController extends Controller
         $this->authorizeResource(Post::class);
     }
 
-    public function index(?Topic $topic = null): Response
+    public function index(Request $request, ?Topic $topic = null): Response
     {
         $posts = Post::with(['user', 'topic'])
             ->when($topic, fn (Builder $query) => $query->whereBelongsTo($topic))
+            ->when(
+                $request->query('query'),
+                fn (Builder $query) => $query
+                    ->WhereAny(['title', 'body'], 'like', '%'.$request->query('query').'%')
+            )
             ->latest()
             ->latest('id')
             ->paginate();
@@ -32,6 +37,7 @@ class PostController extends Controller
             'posts' => PostResource::collection($posts),
             'topics' => fn () => TopicResource::collection(Topic::all()),
             'selectedTopic' => fn () => $topic ? TopicResource::make($topic) : null,
+            'query' => $request->query('query'),
         ]);
     }
 

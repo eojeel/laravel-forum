@@ -19,9 +19,9 @@ it('allows liking a likeable', function (Model $likeable) {
     $user = User::factory()->create();
 
     actingAs($user)
-        ->fromRoute('dashboard')
+        ->fromRoute('index')
         ->post(route('likes.store', [$likeable->getMorphClass(), $likeable->id]))
-        ->assertRedirect(route('dashboard'));
+        ->assertRedirect(route('index'));
 
     $this->assertDatabaseHas(Like::class, [
         'user_id' => $user->id,
@@ -48,7 +48,7 @@ it('can only likes supported models', function () {
     $user = User::factory()->create();
 
     actingAs($user)
-        ->fromRoute('dashboard')
+        ->fromRoute('index')
         ->post(route('likes.store', [$user->getMorphClass(), $user->id]))
         ->assertForbidden();
 });
