@@ -69,7 +69,7 @@ const propmtUserForHref = () => {
 
 
 <template>
-    <div v-if="editor" class="bg-white rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600">
+    <div v-if="editor" class="bg-white rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600">
     <menu class="flex divide-x border-b">
         <MenuButton :editor="editor" @click="() => editor.chain().toggleBold().focus().run()" element="bold" icon="ri-bold" />
         <MenuButton :editor="editor" @click="() => editor.chain().toggleItalic().focus().run()" method="" element="italic" icon="ri-italic" />
@@ -83,7 +83,7 @@ const propmtUserForHref = () => {
                 @click="() => propmtUserForHref()"
                 type="button"
                 class="px-3 py-2"
-                :class="[editor.isActive('link') ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']">
+                :class="[editor.isActive('link') ? 'bg-emerald-500 text-white' : 'hover:bg-gray-200']">
                 <i class="ri-link"></i>
             </button>
         </li>
@@ -93,7 +93,7 @@ const propmtUserForHref = () => {
                 @click="() => editor.chain().toggleHeading({level: 2}).focus().run()"
                 type="button"
                 class="px-3 py-2"
-                :class="[editor.isActive('heading', { level: 2}) ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']">
+                :class="[editor.isActive('heading', { level: 2}) ? 'bg-emerald-500 text-white' : 'hover:bg-gray-200']">
                 <i class="ri-h-1"></i>
             </button>
         </li>
@@ -102,7 +102,7 @@ const propmtUserForHref = () => {
                 @click="() => editor.chain().toggleHeading({level: 3}).focus().run()"
                 type="button"
                 class="px-3 py-2"
-                :class="[editor.isActive('heading', { level: 3}) ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']">
+                :class="[editor.isActive('heading', { level: 3}) ? 'bg-emerald-500 text-white' : 'hover:bg-gray-200']">
                 <i class="ri-h-2"></i>
             </button>
         </li>
@@ -111,7 +111,7 @@ const propmtUserForHref = () => {
                 @click="() => editor.chain().toggleHeading({level: 4}).focus().run()"
                 type="button"
                 class="px-3 py-2"
-                :class="[editor.isActive('heading', { level: 4}) ? 'bg-indigo-500 text-white' : 'hover:bg-gray-200']">
+                :class="[editor.isActive('heading', { level: 4}) ? 'bg-emerald-500 text-white' : 'hover:bg-gray-200']">
                 <i class="ri-h-3"></i>
             </button>
         </li>

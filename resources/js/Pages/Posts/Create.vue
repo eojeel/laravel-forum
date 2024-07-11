@@ -46,7 +46,7 @@ const autofill = async () => {
                     <InputLabel for="body" class="sr-only">Body</InputLabel>
                     <div>
                         <InputLabel for="topic_id">Select a Topic</InputLabel>
-                        <select v-model="form.topic_id" :id="form.topic_id" class="mt-1 mb-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                        <select v-model="form.topic_id" :id="form.topic_id" class="mt-1 mb-1 w-full border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm">
                             <option v-for="topic in topics" :key="topic.id" :value="topic.id">
                                 {{ topic.name }}
                             </option>

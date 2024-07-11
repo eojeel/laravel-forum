@@ -55,7 +55,7 @@ const nextUrl = computed(() => props.meta.links[props.meta.links.length - 1].url
             v-html="Link.label"
             preserve-scroll
             :class="{
-                'z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600': Link.active,
+                'z-10 bg-emerald-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600': Link.active,
                 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0': !Link.active
             }"
             >

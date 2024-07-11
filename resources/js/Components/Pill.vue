@@ -14,8 +14,8 @@ defineProps({
 <template>
     <Link
         :href="href"
-        class="whitespace-nowrap mb-2 rounded-full py-0.5 px-2 border borer-pink-500 text-pink-500 hover:bg-indigo-500 hover:text-indigo-50"
-        :class="{ 'bg-indigo-500 text-indigo-50' : filled }">
+        class="whitespace-nowrap mb-2 rounded-full py-0.5 px-2 border border-gray-500 text-emerald-500 hover:bg-gray-500 hover:text-white"
+        :class="{ 'bg-gray-500 text-white' : filled }">
         <slot></slot>
     </Link>
 </template>

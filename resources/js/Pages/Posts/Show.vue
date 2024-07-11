@@ -52,14 +52,14 @@ const deleteComment = async (commentId) => {
         return;
     }
 
-    router.delete(route('comment.destroy', {comment: commentId, page: props.comments.meta.current_page}), {
+    router.delete(route('comments.destroy', {comment: commentId, page: props.comments.meta.current_page}), {
         preserveScroll: true,
     });
 }
 
 const UpdateComment = async () => {
 
-    if(! await confirmation('Are you sure you want to update the comment!'))cd
+    if(! await confirmation('Are you sure you want to update the comment!'))
     {
         commentTextArea.value?.focus();
         return;
@@ -88,15 +88,15 @@ const UpdateComment = async () => {
             <Pill :href="route('posts.index', {topic: post.topic.slug })">{{ post.topic.name }}</Pill>
             <span class="block mt-2 text-sm text-gray-700">{{ formattedDate(post.created_at) }} ago by {{post.user.name}}</span>
             <div class="mt-4">
-                <span class="text-pink-500 font-bold">
+                <span class="text-gray-500 font-bold">
                     {{ post.likes_count }} Likes
                 </span>
                 <div class="mt-2" v-if="$page.props.auth.user">
-                    <Link v-if="post.can.like" :href="route('likes.store', ['post', post.id])" method="post" class="inline-block bg-indigo-600 hover:bg-pink-500 transition-colors text-white py-1.5 px-3 rounded-full">
+                    <Link v-if="post.can.like" :href="route('likes.store', ['post', post.id])" method="post" class="inline-block bg-emerald-600 hover:bg-gray-500 transition-colors text-white py-1.5 px-3 rounded-full">
                         <HandThumbUpIcon class="size-4 inline-block"/>
                         Like Post
                     </Link>
-                    <Link v-else :href="route('likes.destroy', ['post', post.id])" method="delete" class="inline-block bg-indigo-600 hover:bg-pink-500 transition-colors text-white py-1.5 px-3 rounded-full">
+                    <Link v-else :href="route('likes.destroy', ['post', post.id])" method="delete" class="inline-block bg-emerald-600 hover:bg-gray-500 transition-colors text-white py-1.5 px-3 rounded-full">
                         <HandThumbDownIcon class="size-4 inline-block"/>
                         Unlike Post
                     </Link>
