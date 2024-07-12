@@ -22,20 +22,19 @@ class PostController extends Controller
 
     public function index(Request $request, ?Topic $topic = null): Response
     {
-        $posts = Post::with(['user', 'topic'])
-            ->when($topic, fn (Builder $query) => $query->whereBelongsTo($topic))
-            ->when(
-                $request->query('query'),
-                fn (Builder $query) => $query
-                    ->WhereAny(['title', 'body'], 'like', '%'.$request->query('query').'%')
-            )
-            ->latest()
-            ->latest('id')
-            ->paginate()
-            ->withQueryString();
+        if ($request->query('query')) {
+            $posts = Post::search($request->query('query'))
+                ->query(fn (Builder $query) => $query->with(['user', 'topic']))
+                ->when($topic, fn (\Laravel\Scout\Builder $query) => $query->where('topic_id', $topic->id))
+        } else {
+            $posts = Post::with(['user', 'topic'])
+                ->when($topic, fn (Builder $query) => $query->whereBelongsTo($topic))
+                ->latest()
+                ->latest('id');
+        }
 
         return Inertia('Posts/Index', [
-            'posts' => PostResource::collection($posts),
+            'posts' => PostResource::collection($posts->paginate()->withQueryString()),
             'topics' => fn () => TopicResource::collection(Topic::all()),
             'selectedTopic' => fn () => $topic ? TopicResource::make($topic) : null,
             'query' => $request->query('query'),

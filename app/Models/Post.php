@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
     use ConvertsMakrdownToHtml;
     use HasFactory;
+    use Searchable;
 
     protected $fillable = ['title', 'body', 'html', 'user_id', 'topic_id'];
 
